@@ -1,30 +1,28 @@
 ##!/usr/bin/env python
 ## -*-coding:utf-8 -*-
 ##********************************************************************************
-## **  ÎÄ¼şÃû³Æ£ºsend_sms.sh
-## **  ¹¦ÄÜÃèÊö£º¼à¿Ø¶ÌĞÅ·¢ËÍÍ¨ÓÃ½Å±¾£¬¿ÉÔÚ½Å±¾ÄÚ²¿µ÷ÓÃ¸Ã½Å±¾
-## **  Êä Èë ±í£º
-## **  Êä ³ö ±í£º
-## **  ´´ ½¨ Õß£ºhyn
-## **  ´´½¨ÈÕÆÚ£º20191010
-## **  ĞŞ¸ÄÈÕÖ¾£º
-## **  ĞŞ¸ÄÈÕÆÚ£º
+## **  æ–‡ä»¶åç§°ï¼šsend_sms.sh
+## **  åŠŸèƒ½æè¿°ï¼šç›‘æ§çŸ­ä¿¡å‘é€é€šç”¨è„šæœ¬ï¼Œå¯åœ¨è„šæœ¬å†…éƒ¨è°ƒç”¨è¯¥è„šæœ¬
+## **  è¾“ å…¥ è¡¨ï¼š
+## **  è¾“ å‡º è¡¨ï¼š
+## **  åˆ› å»º è€…ï¼šhyn
+## **  åˆ›å»ºæ—¥æœŸï¼š20191010
+## **  ä¿®æ”¹æ—¥å¿—ï¼š
+## **  ä¿®æ”¹æ—¥æœŸï¼š
 ## *******************************************************************************
-## **  ³ÌĞòµ÷ÓÃ¸ñÊ½£ºsh send_sms.sh 
+## **  ç¨‹åºè°ƒç”¨æ ¼å¼ï¼šsh send_sms.sh 
 ## *******************************************************************************
 
-# ¸Ã²ÎÊıÄ¬ÈÏ·Å¶ÌĞÅ·¢ËÍÄÚÈİ£¬Ò²¿É·Å·şÎñÆ÷ĞÅÏ¢
+# è¯¥å‚æ•°é»˜è®¤æ”¾çŸ­ä¿¡å‘é€å†…å®¹ï¼Œä¹Ÿå¯æ”¾æœåŠ¡å™¨ä¿¡æ¯
 sms_info=$1
-# 
+# çŸ­ä¿¡æ¥å—äºº
 all_info=$2
 
-# Êı¾İ¿âµÇÂ¼ÃüÁî
+echo $sms_info
+echo $all_info
+
+# æ•°æ®åº“ç™»å½•å‘½ä»¤
 exec_mysql_ng="mysql -h10.97.192.180 -ungtassuite -pAj7y32h! ngtassuite"
 
-# ·¢ËÍ¶ÌĞÅ
-exec_mysql_ng -e "INSERT INTO tb_sys_sms_send_cur(serv_number, send_date,text,opt_user,opt_date ) SELECT serv_number, now(), '$sms_info', opt_user, now() FROM tb_sys_sms_phone WHERE opt_user = 'ocetl' and sms_id = '$all_info';"
-
-
-
-# ·½·¨µ÷ÓÃ²âÊÔ
-# send_sms "$server·şÎñÆ÷${mount}´ÅÅÌÒÑÊ¹ÓÃ${used}%"  "ALL"
+# å‘é€çŸ­ä¿¡
+${exec_mysql_ng} -e "INSERT INTO tb_sys_sms_send_cur(serv_number, send_date,text,opt_user,opt_date ) SELECT serv_number, now(), '$sms_info', opt_user, now() FROM tb_sys_sms_phone WHERE opt_user = 'ocetl' and sms_id = '$all_info';"
