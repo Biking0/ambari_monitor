@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # -*-coding:utf-8 -*-
 #********************************************************************************
-# ** æ–‡ä»¶åç§°ï¼šsolr_monitor.py
-# ** åŠŸèƒ½æè¿°ï¼šsolrç›‘æ§ï¼ŒæŸ¥è¯¢æœ€30åˆ†é’Ÿæ•°æ®é‡
-# ** è¾“å…¥å‚æ•°ï¼š
-# ** è¾“ å‡º è¡¨ï¼š
-# ** åˆ› å»º è€…ï¼šhyn
-# ** åˆ›å»ºæ—¥æœŸï¼š20191015
-# ** ä¿®æ”¹æ—¥å¿—ï¼š
-# ** ä¿®æ”¹æ—¥æœŸï¼š
+# ** ÎÄ¼şÃû³Æ£ºsolr_monitor.py
+# ** ¹¦ÄÜÃèÊö£ºsolr¼à¿Ø£¬²éÑ¯×î30·ÖÖÓÊı¾İÁ¿
+# ** ÊäÈë²ÎÊı£º
+# ** Êä ³ö ±í£º
+# ** ´´ ½¨ Õß£ºhyn
+# ** ´´½¨ÈÕÆÚ£º20191015
+# ** ĞŞ¸ÄÈÕÖ¾£º
+# ** ĞŞ¸ÄÈÕÆÚ£º
 # *******************************************************************************
-# ** ç¨‹åºè°ƒç”¨æ ¼å¼ï¼špython solr_monitor.py
+# ** ³ÌĞòµ÷ÓÃ¸ñÊ½£ºpython solr_monitor.py
 # *******************************************************************************
 
 import os
@@ -20,33 +20,33 @@ import json
 import datetime
 import config
 
-# æ–¹æ³•ç»“æ„è®¾è®¡:
-# 1.åˆå§‹åŒ–
-# 2.ç½‘ç»œè¯·æ±‚
-# 3.çŸ­ä¿¡å†…å®¹ç¼–è¾‘
-# 4.å‘é€çŸ­ä¿¡
+# ·½·¨½á¹¹Éè¼Æ:
+# 1.³õÊ¼»¯
+# 2.ÍøÂçÇëÇó
+# 3.¶ÌĞÅÄÚÈİ±à¼­
+# 4.·¢ËÍ¶ÌĞÅ
 
-# solrç›‘æ§
+# solr¼à¿Ø
 class SolrMonitor():
 	
-	# åˆå§‹åŒ–
+	# ³õÊ¼»¯
 	def __init__(self):
 		
-		# ç­›é€‰æ¡ä»¶
+		# É¸Ñ¡Ìõ¼ş
 		self.all_info='ALL'
-		# çŸ­ä¿¡å†…å®¹
+		# ¶ÌĞÅÄÚÈİ
 		self.sms_list=[]
 		
-		# åˆå§‹åŒ–æŸ¥è¯¢å‚æ•°
+		# ³õÊ¼»¯²éÑ¯²ÎÊı
 		end_time_stamp = str(time.time()).split('.')[0]
 		self.activity_num=config.default_activity_num
 		self.start_time_stamp=str(int(end_time_stamp)-config.search_time)+'000'
 		self.end_time_stamp=end_time_stamp+'000'
 		
-	# ç½‘ç»œè¯·æ±‚
+	# ÍøÂçÇëÇó
 	def request_data(self):
 		
-		# æŸ¥è¯¢solrå°†ç»“æœè¾“å‡ºåˆ°search_solr.txt
+		# ²éÑ¯solr½«½á¹ûÊä³öµ½search_solr.txt
 		solr_sh='curl -i -H "Content-Type:application/json" -X POST --data \''+'{"condition":"activity_num:'+self.activity_num+' AND start_time:{\\"'+self.start_time_stamp+'\\" TO \\"'+self.end_time_stamp+'\\"}" ,"tables":["DW_LOC_ZX_USER_BH_MIN_20190917"],"query":"","start":0,"return_fields":["phone","imsi","start_time","city_id","county_id"],"cursor_mark":"*","sort":"id desc","rows":10000}\' '+'http://10.218.146.65:9000/ocsearch-service/query/search | more'+' > '+config.log_path+'solr_monitor.txt'
 	
 		print solr_sh
@@ -55,48 +55,48 @@ class SolrMonitor():
 		self.sms_info()
 		
 	
-	# çŸ­ä¿¡å†…å®¹ç¼–è¾‘
+	# ¶ÌĞÅÄÚÈİ±à¼­
 	def sms_info(self):
 	
-		# è¯»å–æœ¬åœ°æ–‡ä»¶ä¿¡æ¯
+		# ¶ÁÈ¡±¾µØÎÄ¼şĞÅÏ¢
 		f=open(config.log_path+'solr_monitor.txt').readlines()
 
 		dict_data=json.loads(f[6])
 		
 		total_num=dict_data['data']['total']		
 		
-		# æµ‹è¯•çŸ­ä¿¡å‘é€
-		#total_num=0
-		# æ•°æ®é‡å°äºè­¦æˆ’å€¼ï¼Œå‡ºç°å¼‚å¸¸
-		if total_num<config.solr_data_num:
+		# ²âÊÔ¶ÌĞÅ·¢ËÍ
+		#if True:
+		# Êı¾İÁ¿Ğ¡ÓÚ¾¯½äÖµ£¬³öÏÖÒì³£
+		if total_num<config.solr_data_num:		
 		
-			# çŸ­ä¿¡å†…å®¹
-			solr_info='solræ•°æ®é‡å¼‚å¸¸ï¼Œæœ€æ–°30åˆ†é’Ÿæ•°æ®é‡ï¼š'+str(total_num)
+			# ¶ÌĞÅÄÚÈİ
+			solr_info='solrÊı¾İÁ¿Òì³££¬×îĞÂ30·ÖÖÓÊı¾İÁ¿£º'+str(total_num)
 			
 			self.sms_list.append(solr_info)
 			print solr_info
 			
-			# å‘é€çŸ­ä¿¡
+			# ·¢ËÍ¶ÌĞÅ
 			if config.solr_send_falg:
 				self.send_sms()
 		else:
-			print time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))+' '+'solræ­£å¸¸,æœ€æ–°30åˆ†é’Ÿæ•°æ®é‡ï¼š'+str(total_num)
+			print time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))+' '+'solrÕı³£,×îĞÂ30·ÖÖÓÊı¾İÁ¿£º'+str(total_num)
 	
-	# å‘é€çŸ­ä¿¡
+	# ·¢ËÍ¶ÌĞÅ
 	def send_sms(self):
 		
 		for sms_info in self.sms_list:
 			
-			# å‘é€çŸ­ä¿¡
+			# ·¢ËÍ¶ÌĞÅ
 			os.popen('sh send_sms.sh'+' '+sms_info+' '+config.all_info+' >> '+config.log_path+'solr_monitor.log').readlines()
 			
-			# å°†çŸ­ä¿¡å†…å®¹å†™å…¥æ—¥å¿—
+			# ½«¶ÌĞÅÄÚÈİĞ´ÈëÈÕÖ¾
 			os.popen('echo '+time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))+' '+sms_info+' >> '+config.log_path+'solr_monitor.log').readlines()
 
 		self.sms_list=[]
 		
 
-# å¯åŠ¨æµ‹è¯•
+# Æô¶¯²âÊÔ
 #if __name__=='__main__':	
 #	
 #	while True:
@@ -104,5 +104,5 @@ class SolrMonitor():
 #		sm = SolrMonitor()
 #		
 #		sm.request_data()
-#		# 10åˆ†é’Ÿé—´éš”
+#		# 10·ÖÖÓ¼ä¸ô
 #		time.sleep(config.sleep_time)

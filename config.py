@@ -1,88 +1,92 @@
 #!/usr/bin/env python
 # -*-coding:utf-8 -*-
 # ***************************************************************************
-# æ–‡ä»¶åç§°ï¼šconfig.py
-# åŠŸèƒ½æè¿°ï¼šambariç›‘æŽ§é¡¹ç›®é…ç½®æ–‡ä»¶
-# è¾“ å…¥ è¡¨ï¼š
-# è¾“ å‡º è¡¨ï¼š
-# åˆ› å»º è€…ï¼š
-# åˆ›å»ºæ—¥æœŸï¼š
-# ä¿®æ”¹æ—¥å¿—ï¼š
-# ä¿®æ”¹æ—¥æœŸï¼š
+# ÎÄ¼þÃû³Æ£ºconfig.py
+# ¹¦ÄÜÃèÊö£ºambari¼à¿ØÏîÄ¿ÅäÖÃÎÄ¼þ
+# Êä Èë ±í£º
+# Êä ³ö ±í£º
+# ´´ ½¨ Õß£º
+# ´´½¨ÈÕÆÚ£º
+# ÐÞ¸ÄÈÕÖ¾£º
+# ÐÞ¸ÄÈÕÆÚ£º
 # ***************************************************************************
-# ç¨‹åºè°ƒç”¨æ ¼å¼ï¼špython config.py
+# ³ÌÐòµ÷ÓÃ¸ñÊ½£ºpython config.py
 # ***************************************************************************
 
-# ç›®å‰æµ‹è¯•ç›‘æŽ§habseé›†ç¾¤
-
-# hbaseé›†ç¾¤åœ°å€
+# hbase¼¯ÈºµØÖ·
 hbase_url='http://10.218.146.65:8080/api/v1/clusters'
 
-# hbaseé›†ç¾¤åå­—
+# hbase¼¯ÈºÃû×Ö
 hbase_name='hbasecluster'
 
-# ä¸‰æœŸé›†ç¾¤åœ°å€
+# ÈýÆÚ¼¯ÈºµØÖ·
 sanqi_url='http://10.93.171.97:8080/api/v1/clusters'
 
-# ä¸‰æœŸé›†ç¾¤åå­—
+# ÈýÆÚ¼¯ÈºÃû×Ö
 sanqi_name='hnydcluster'
 
-# æµå¤„ç†ç›¸å…³æœåŠ¡
+# ¼à¿ØÄ¿±êµØÖ·
+monitor_url=hbase_url
+monitor_name=hbase_name
+
+# Á÷´¦ÀíÏà¹Ø·þÎñ
 liu_service_list=['FLUME','KAFKA']
 
-# ç›®å‰ç›‘æŽ§æœåŠ¡
-service_list=['AMBARI_INFRA','FLUME','HBASE','KAFKA','MAPREDUCE2','PIG','RANGER','SLIDER','SPARK','TEZ','YARN','ZOOKEEPER']
+# Ä¿Ç°¼à¿Ø·þÎñ
+service_list=['AMBARI_INFRA','FLUME','HBASE','KAFKA','MAPREDUCE2','PIG','RANGER','SLIDER','SPARK','TEZ','YARN','ZOOKEEPER','HDFS']
 
-# å…¨éƒ¨æœåŠ¡
+# È«²¿·þÎñ
 all_service_list=['AMBARI_INFRA','AMBARI_METRICS','FLUME','HBASE','HDFS','HIVE','KAFKA','MAPREDUCE2','PIG','RANGER','SLIDER','SPARK','TEZ','YARN','ZOOKEEPER']
 
-# æ— æ³•ç›‘æŽ§æœåŠ¡ï¼Œambarié¡µé¢å‚æ•°å¼‚å¸¸
+# ÎÞ·¨¼à¿Ø·þÎñ£¬ambariÒ³Ãæ²ÎÊýÒì³£
 error_service_list=['AMBARI_METRICS','HDFS','HIVE']
 
-# çŸ­ä¿¡è¿‡æ»¤
-all_info='ALL'
+# ¶ÌÐÅ¹ýÂË
+#all_info='ALL'
 
-# çŸ­ä¿¡é€šçŸ¥å¼€å…³ï¼Œæ˜¯å¦å‘é€çŸ­ä¿¡ï¼Œå‘é€çŸ­ä¿¡éœ€è¦ç½®ä¸ºTrueï¼Œå¦åˆ™ä¸ºFalse
+# ¶ÌÐÅ¹ýÂË²âÊÔ
+all_info='HYN'
+
+# ¶ÌÐÅÍ¨Öª¿ª¹Ø£¬ÊÇ·ñ·¢ËÍ¶ÌÐÅ£¬·¢ËÍ¶ÌÐÅÐèÒªÖÃÎªTrue£¬·ñÔòÎªFalse
 send_flag=True
 
-# solrçŸ­ä¿¡å¼€å…³
+# solr¶ÌÐÅ¿ª¹Ø
 solr_send_falg=True
 
-# æ—¥å¿—æ–‡ä»¶è·¯å¾„
+# ÈÕÖ¾ÎÄ¼þÂ·¾¶
 log_path='log/'
 
-# solré»˜è®¤æŸ¥è¯¢æ´»åŠ¨idactivity_num
+# solrÄ¬ÈÏ²éÑ¯»î¶¯idactivity_num
 default_activity_num = '10415'
 
-# æŸ¥è¯¢æœ€æ–°30åˆ†é’Ÿ
+# ²éÑ¯×îÐÂ30·ÖÖÓ
 search_time=1800
 
-# solræ•°æ®é‡è­¦å‘Šå€¼
+# solrÊý¾ÝÁ¿¾¯¸æÖµ
 solr_data_num=100
 
-# ç›‘æŽ§é—´éš”
+# ¼à¿Ø¼ä¸ô
 sleep_time=600
 
-################ ç¨‹åºç›‘æŽ§åç§°ï¼Œç”¨äºŽæ—¥å¿—æ‰“å° ################
+################ ³ÌÐò¼à¿ØÃû³Æ£¬ÓÃÓÚÈÕÖ¾´òÓ¡ ################
 service_monitor = 'service_monitor'
 solr_monitor = 'solr_monitor'
 kafka_monitor = 'kafka_monitor'
 
-############## ç¨‹åºç›‘æŽ§å¼€å…³ï¼Œå¯åœç”¨æŒ‡å®šç›‘æŽ§ç¨‹åº ############
+############## ³ÌÐò¼à¿Ø¿ª¹Ø£¬¿ÉÍ£ÓÃÖ¸¶¨¼à¿Ø³ÌÐò ############
 service_monitor_flag = True
 solr_monitor_flag = True
 kafka_monitor_flag = True
 
 
-###### ç›‘æŽ§å¼€å…³ #######
-# 1. ç›‘æŽ§å„ç±»æœåŠ¡
-# 2. ç›‘æŽ§solr
+###### ¼à¿Ø¿ª¹Ø #######
+# 1. ¼à¿Ø¸÷Àà·þÎñ
+# 2. ¼à¿Øsolr
 # 3. 
-# 4. ç›‘æŽ§kafkaæ¶ˆè´¹
-# 5. ç›‘æŽ§kafkaæ—¥å¿—ï¼Œæœ‰ç›‘æŽ§
+# 4. ¼à¿ØkafkaÏû·Ñ
+# 5. ¼à¿ØkafkaÈÕÖ¾£¬ÓÐ¼à¿Ø
 		
 		# 
 		
 		
-
 
