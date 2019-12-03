@@ -1,16 +1,16 @@
-#!/usr/bin/env python
+ï»¿#!/usr/bin/env python
 # -*-coding:utf-8 -*-
 # *******************************************************************************
-# ÎÄ¼şÃû³Æ£ºservice_monitor.py
-# ¹¦ÄÜÃèÊö£º¸÷Àà·şÎñÍ¨ÓÃ¼à¿Ø
-# Êä Èë ±í£º 
-# Êä ³ö ±í£º 
-# ´´ ½¨ Õß£ºhyn
-# ´´½¨ÈÕÆÚ£º20191010
-# ĞŞ¸ÄÈÕÖ¾£º
-# ĞŞ¸ÄÈÕÆÚ£º
+# æ–‡ä»¶åç§°ï¼šservice_monitor.py
+# åŠŸèƒ½æè¿°ï¼šå„ç±»æœåŠ¡é€šç”¨ç›‘æ§
+# è¾“ å…¥ è¡¨ï¼š 
+# è¾“ å‡º è¡¨ï¼š 
+# åˆ› å»º è€…ï¼šhyn
+# åˆ›å»ºæ—¥æœŸï¼š20191010
+# ä¿®æ”¹æ—¥å¿—ï¼š
+# ä¿®æ”¹æ—¥æœŸï¼š
 # *******************************************************************************
-# ³ÌĞòµ÷ÓÃ¸ñÊ½£ºpython service_monitor.py
+# ç¨‹åºè°ƒç”¨æ ¼å¼ï¼špython service_monitor.py
 # *******************************************************************************
 
 import os
@@ -19,27 +19,27 @@ import json
 import time
 import config
 
-# ·½·¨½á¹¹Éè¼Æ:
-# 1.³õÊ¼»¯
-# 2.ÍøÂçÇëÇó
-# 3.¶ÌĞÅÄÚÈİ±à¼­
-# 4.·¢ËÍ¶ÌĞÅ
+# æ–¹æ³•ç»“æ„è®¾è®¡:
+# 1.åˆå§‹åŒ–
+# 2.ç½‘ç»œè¯·æ±‚
+# 3.çŸ­ä¿¡å†…å®¹ç¼–è¾‘
+# 4.å‘é€çŸ­ä¿¡
 
 class ServiceMonitor():
 	
-	# ³õÊ¼»¯
+	# åˆå§‹åŒ–
 	def __init__(self):
 		
-		# ¶ÌĞÅÄÚÈİ
+		# çŸ­ä¿¡å†…å®¹
 		self.sms_list=[]
 		
-	# ÍøÂçÇëÇó
+	# ç½‘ç»œè¯·æ±‚
 	def request_data(self):
 		
-		# Ñ­»·ÇëÇó¶à¸ö·şÎñ
+		# å¾ªç¯è¯·æ±‚å¤šä¸ªæœåŠ¡
 		for service_name in config.service_list:
 		
-			# ÇëÇó·şÎñ×´Ì¬Êı¾İÊä³öµ½±¾µØtxtÎÄ¼ş
+			# è¯·æ±‚æœåŠ¡çŠ¶æ€æ•°æ®è¾“å‡ºåˆ°æœ¬åœ°txtæ–‡ä»¶
 			exec_sh = 'curl -u admin:admin '+config.monitor_url+'/'+config.monitor_name+'/services/'+service_name+' > '+config.log_path+config.service_monitor+'.txt'
 			# print 'exec_sh: '+exec_sh
 			result_data = os.popen(exec_sh).readlines()
@@ -52,14 +52,14 @@ class ServiceMonitor():
 				print e
 				continue
 	
-	# ¶ÌĞÅÄÚÈİ±à¼­
+	# çŸ­ä¿¡å†…å®¹ç¼–è¾‘
 	def sms_info(self,service_name,result_data):
 	
-		# ¶ÁÈ¡kafka±¾µØÎÄ¼şĞÅÏ¢
+		# è¯»å–kafkaæœ¬åœ°æ–‡ä»¶ä¿¡æ¯
 		f=open(config.log_path+config.service_monitor+'.txt')
 		dict_data=json.load(f)
 
-		# service¼¯ÈºĞÅÏ¢
+		# serviceé›†ç¾¤ä¿¡æ¯
 		service_info=dict_data['alerts_summary']
 		critical_info=service_info['CRITICAL']
 		host_info=service_info['OK']
@@ -67,25 +67,25 @@ class ServiceMonitor():
 		if service_name=='HDFS':
 			host_count=host_count-30
 			
-		print service_name+'·şÎñ×ÜÖ÷»úÊı£º'+str(host_count)
+		print service_name+'æœåŠ¡æ€»ä¸»æœºæ•°ï¼š'+str(host_count)
 		
-		# ·şÎñ¾¯¸æĞÅÏ¢
+		# æœåŠ¡è­¦å‘Šä¿¡æ¯
 		
-		# HDFS¾¯¸æĞèÒªÌØÊâ´¦Àí
+		# HDFSè­¦å‘Šéœ€è¦ç‰¹æ®Šå¤„ç†
 		
 		if service_name=='HDFS':
 			#if critical_info>-1:
 			
 			if critical_info>5:
-				critical_sms_info=service_name+'³öÏÖ'+str(critical_info)+'Ìõ¾¯¸æĞÅÏ¢CRITICAL£¡'
+				critical_sms_info=service_name+'å‡ºç°'+str(critical_info)+'æ¡è­¦å‘Šä¿¡æ¯CRITICALï¼'
 				self.sms_list.append(critical_sms_info)
 				print critical_sms_info
 				
 			
-			# Õı³£Ö÷»ú¼à¿Ø
+			# æ­£å¸¸ä¸»æœºç›‘æ§
 			#if host_info<host_count+1:
 			if host_info<host_count:
-				host_sms_info=service_name+'Õı³£Ö÷»úÊı£¨×ÜÖ÷»úÊı'+str(host_count)+'£©£º'+str(host_info)
+				host_sms_info=service_name+'æ­£å¸¸ä¸»æœºæ•°ï¼ˆæ€»ä¸»æœºæ•°'+str(host_count)+'ï¼‰ï¼š'+str(host_info)
 				self.sms_list.append(host_sms_info)
 				print host_sms_info
 			
@@ -94,38 +94,38 @@ class ServiceMonitor():
 			
 			#if critical_info>-1:
 			if critical_info>0:
-				critical_sms_info=service_name+'³öÏÖ'+str(critical_info)+'Ìõ¾¯¸æĞÅÏ¢CRITICAL£¡'
+				critical_sms_info=service_name+'å‡ºç°'+str(critical_info)+'æ¡è­¦å‘Šä¿¡æ¯CRITICALï¼'
 				self.sms_list.append(critical_sms_info)
 				print critical_sms_info
 				
 			
-			# Õı³£Ö÷»ú¼à¿Ø
+			# æ­£å¸¸ä¸»æœºç›‘æ§
 			#if host_info<host_count+1:
 			if host_info<host_count:
-				host_sms_info=service_name+'Õı³£Ö÷»úÊı£¨×ÜÖ÷»úÊı'+str(host_count)+'£©£º'+str(host_info)
+				host_sms_info=service_name+'æ­£å¸¸ä¸»æœºæ•°ï¼ˆæ€»ä¸»æœºæ•°'+str(host_count)+'ï¼‰ï¼š'+str(host_info)
 				self.sms_list.append(host_sms_info)
 				print host_sms_info
 		
-		# ·¢ËÍ¶ÌĞÅs
+		# å‘é€çŸ­ä¿¡s
 		if config.send_flag:
 			self.send_sms(service_name)
 	
-	# ·¢ËÍ¶ÌĞÅ
+	# å‘é€çŸ­ä¿¡
 	def send_sms(self,service_name):
 		
 		for sms_info in self.sms_list:
 			
-			# ·¢ËÍ¶ÌĞÅ
+			# å‘é€çŸ­ä¿¡
 			os.popen('sh send_sms.sh'+' '+sms_info+' '+config.all_info+' >> '+config.log_path+'service_monitor.log').readlines()
 			
-			# ½«¶ÌĞÅÄÚÈİĞ´ÈëÈÕÖ¾
+			# å°†çŸ­ä¿¡å†…å®¹å†™å…¥æ—¥å¿—
 			os.popen('echo '+time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))+' '+sms_info+' >> '+config.log_path+'service_monitor.log').readlines()
 			
-			print service_name+' ¶ÌĞÅ£º'+sms_info
+			print service_name+' çŸ­ä¿¡ï¼š'+sms_info
 		
 		self.sms_list=[]
 
-# Æô¶¯²âÊÔ
+# å¯åŠ¨æµ‹è¯•
 #if __name__=='__main__':
 #	sm = ServiceMonitor()
 #	

@@ -1,22 +1,22 @@
-http://10.218.146.65:8080/#/main/dashboard/metrics
+ï»¿http://10.218.146.65:8080/#/main/dashboard/metrics
 http://10.218.146.65:8080/#/api/v1/clusters
 
-ÖØÒª£¬¼¯ÈºÊôĞÔ
+é‡è¦ï¼Œé›†ç¾¤å±æ€§
 curl -u admin:admin http://10.218.146.65:8080/api/v1/clusters
-¼¯ÈºµØÖ·
+é›†ç¾¤åœ°å€
 http://10.218.146.65:8080/api/v1/clusters/hbasecluster
 
-kafka¼¯Èº×´Ì¬
+kafkaé›†ç¾¤çŠ¶æ€
 curl -u admin:admin http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/KAFKA
 
-flume×´Ì¬
+flumeçŠ¶æ€
 curl -u admin:admin http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/FLUME
 
 curl -u admin:admin http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/YARN
 curl -u admin:admin http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/AMBARI_METRICS
 
 
-·şÎñÁĞ±í
+æœåŠ¡åˆ—è¡¨
 {
   "href" : "http://10.218.146.65:8080/api/v1/clusters/hbasecluster/services/",
   "items" : [

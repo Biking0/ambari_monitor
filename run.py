@@ -1,16 +1,16 @@
-#!/usr/bin/env python
+ï»¿#!/usr/bin/env python
 # -*-coding:utf-8 -*-
 #********************************************************************************
-# ** ÎÄ¼şÃû³Æ£ºrun.py
-# ** ¹¦ÄÜÃèÊö£ºambari ¼à¿ØÏîÄ¿Æô¶¯ËùÓĞ¼à¿Ø³ÌĞò
-# ** Êä Èë ±í£º
-# ** Êä ³ö ±í£º
-# ** ´´ ½¨ Õß£ºhyn
-# ** ´´½¨ÈÕÆÚ£º20191020
-# ** ĞŞ¸ÄÈÕÖ¾£º
-# ** ĞŞ¸ÄÈÕÆÚ£º
+# ** æ–‡ä»¶åç§°ï¼šrun.py
+# ** åŠŸèƒ½æè¿°ï¼šambari ç›‘æ§é¡¹ç›®å¯åŠ¨æ‰€æœ‰ç›‘æ§ç¨‹åº
+# ** è¾“ å…¥ è¡¨ï¼š
+# ** è¾“ å‡º è¡¨ï¼š
+# ** åˆ› å»º è€…ï¼šhyn
+# ** åˆ›å»ºæ—¥æœŸï¼š20191020
+# ** ä¿®æ”¹æ—¥å¿—ï¼š
+# ** ä¿®æ”¹æ—¥æœŸï¼š
 # *******************************************************************************
-# ** ³ÌĞòµ÷ÓÃ¸ñÊ½£ºnohup python run.py >> nohup.out &
+# ** ç¨‹åºè°ƒç”¨æ ¼å¼ï¼šnohup python run.py >> nohup.out &
 # *******************************************************************************
 
 import os
@@ -19,22 +19,22 @@ import config
 import service_monitor
 import solr_monitor
 
-# Æô¶¯
+# å¯åŠ¨
 if __name__=='__main__':
 	
 	while True:
 	
-		# 1.¼à¿Ø¸÷Àà·şÎñ
+		# 1.ç›‘æ§å„ç±»æœåŠ¡
 		service_monitor_object = service_monitor.ServiceMonitor()
 		service_monitor_object.request_data()
 		
-		# 2.¼à¿Øsolr
+		# 2.ç›‘æ§solr
 		solr_monitor_object = solr_monitor.SolrMonitor()
 		solr_monitor_object.request_data()
 		
-		# 3.¼à¿ØkafkaÏû·Ñ
+		# 3.ç›‘æ§kafkaæ¶ˆè´¹
 		
-		# 4.¼à¿ØkafkaÈÕÖ¾£¬ÓĞ¼à¿Ø
+		# 4.ç›‘æ§kafkaæ—¥å¿—ï¼Œæœ‰ç›‘æ§
 		
 		print('sleep 900s')
 		time.sleep(config.sleep_time)

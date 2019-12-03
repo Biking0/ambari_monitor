@@ -1,16 +1,16 @@
-#!/usr/bin/env python
+ï»¿#!/usr/bin/env python
 # -*-coding:utf-8 -*-
 #********************************************************************************
-# ** ÎÄ¼şÃû³Æ£ºsolr_monitor.py
-# ** ¹¦ÄÜÃèÊö£ºsolr¼à¿Ø£¬²éÑ¯×î30·ÖÖÓÊı¾İÁ¿
-# ** ÊäÈë²ÎÊı£º
-# ** Êä ³ö ±í£º
-# ** ´´ ½¨ Õß£ºhyn
-# ** ´´½¨ÈÕÆÚ£º20191015
-# ** ĞŞ¸ÄÈÕÖ¾£º
-# ** ĞŞ¸ÄÈÕÆÚ£º
+# ** æ–‡ä»¶åç§°ï¼šsolr_monitor.py
+# ** åŠŸèƒ½æè¿°ï¼šsolrç›‘æ§ï¼ŒæŸ¥è¯¢æœ€30åˆ†é’Ÿæ•°æ®é‡
+# ** è¾“å…¥å‚æ•°ï¼š
+# ** è¾“ å‡º è¡¨ï¼š
+# ** åˆ› å»º è€…ï¼šhyn
+# ** åˆ›å»ºæ—¥æœŸï¼š20191015
+# ** ä¿®æ”¹æ—¥å¿—ï¼š
+# ** ä¿®æ”¹æ—¥æœŸï¼š
 # *******************************************************************************
-# ** ³ÌĞòµ÷ÓÃ¸ñÊ½£ºpython solr_monitor.py
+# ** ç¨‹åºè°ƒç”¨æ ¼å¼ï¼špython solr_monitor.py
 # *******************************************************************************
 
 import os
@@ -20,33 +20,31 @@ import json
 import datetime
 import config
 
-# ·½·¨½á¹¹Éè¼Æ:
-# 1.³õÊ¼»¯
-# 2.ÍøÂçÇëÇó
-# 3.¶ÌĞÅÄÚÈİ±à¼­
-# 4.·¢ËÍ¶ÌĞÅ
+# æ–¹æ³•ç»“æ„è®¾è®¡:
+# 1.åˆå§‹åŒ–
+# 2.ç½‘ç»œè¯·æ±‚
+# 3.çŸ­ä¿¡å†…å®¹ç¼–è¾‘
+# 4.å‘é€çŸ­ä¿¡
 
-# solr¼à¿Ø
+# solrç›‘æ§
 class SolrMonitor():
 	
-	# ³õÊ¼»¯
+	# åˆå§‹åŒ–
 	def __init__(self):
 		
-		# É¸Ñ¡Ìõ¼ş
-		self.all_info='ALL'
-		# ¶ÌĞÅÄÚÈİ
+		# çŸ­ä¿¡å†…å®¹
 		self.sms_list=[]
 		
-		# ³õÊ¼»¯²éÑ¯²ÎÊı
+		# åˆå§‹åŒ–æŸ¥è¯¢å‚æ•°
 		end_time_stamp = str(time.time()).split('.')[0]
 		self.activity_num=config.default_activity_num
 		self.start_time_stamp=str(int(end_time_stamp)-config.search_time)+'000'
 		self.end_time_stamp=end_time_stamp+'000'
 		
-	# ÍøÂçÇëÇó
+	# ç½‘ç»œè¯·æ±‚
 	def request_data(self):
 		
-		# ²éÑ¯solr½«½á¹ûÊä³öµ½search_solr.txt
+		# æŸ¥è¯¢solrå°†ç»“æœè¾“å‡ºåˆ°search_solr.txt
 		solr_sh='curl -i -H "Content-Type:application/json" -X POST --data \''+'{"condition":"activity_num:'+self.activity_num+' AND start_time:{\\"'+self.start_time_stamp+'\\" TO \\"'+self.end_time_stamp+'\\"}" ,"tables":["DW_LOC_ZX_USER_BH_MIN_20190917"],"query":"","start":0,"return_fields":["phone","imsi","start_time","city_id","county_id"],"cursor_mark":"*","sort":"id desc","rows":10000}\' '+'http://10.218.146.65:9000/ocsearch-service/query/search | more'+' > '+config.log_path+'solr_monitor.txt'
 	
 		print solr_sh
@@ -55,48 +53,48 @@ class SolrMonitor():
 		self.sms_info()
 		
 	
-	# ¶ÌĞÅÄÚÈİ±à¼­
+	# çŸ­ä¿¡å†…å®¹ç¼–è¾‘
 	def sms_info(self):
 	
-		# ¶ÁÈ¡±¾µØÎÄ¼şĞÅÏ¢
+		# è¯»å–æœ¬åœ°æ–‡ä»¶ä¿¡æ¯
 		f=open(config.log_path+'solr_monitor.txt').readlines()
 
 		dict_data=json.loads(f[6])
 		
 		total_num=dict_data['data']['total']		
 		
-		# ²âÊÔ¶ÌĞÅ·¢ËÍ
+		# æµ‹è¯•çŸ­ä¿¡å‘é€
 		#if True:
-		# Êı¾İÁ¿Ğ¡ÓÚ¾¯½äÖµ£¬³öÏÖÒì³£
+		# æ•°æ®é‡å°äºè­¦æˆ’å€¼ï¼Œå‡ºç°å¼‚å¸¸
 		if total_num<config.solr_data_num:		
 		
-			# ¶ÌĞÅÄÚÈİ
-			solr_info='solrÊı¾İÁ¿Òì³££¬×îĞÂ30·ÖÖÓÊı¾İÁ¿£º'+str(total_num)
+			# çŸ­ä¿¡å†…å®¹
+			solr_info='solræ•°æ®é‡å¼‚å¸¸ï¼Œæœ€æ–°30åˆ†é’Ÿæ•°æ®é‡ï¼š'+str(total_num)
 			
 			self.sms_list.append(solr_info)
 			print solr_info
 			
-			# ·¢ËÍ¶ÌĞÅ
+			# å‘é€çŸ­ä¿¡
 			if config.solr_send_falg:
 				self.send_sms()
 		else:
-			print time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))+' '+'solrÕı³£,×îĞÂ30·ÖÖÓÊı¾İÁ¿£º'+str(total_num)
+			print time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))+' '+'solræ­£å¸¸,æœ€æ–°30åˆ†é’Ÿæ•°æ®é‡ï¼š'+str(total_num)
 	
-	# ·¢ËÍ¶ÌĞÅ
+	# å‘é€çŸ­ä¿¡
 	def send_sms(self):
 		
 		for sms_info in self.sms_list:
 			
-			# ·¢ËÍ¶ÌĞÅ
+			# å‘é€çŸ­ä¿¡
 			os.popen('sh send_sms.sh'+' '+sms_info+' '+config.all_info+' >> '+config.log_path+'solr_monitor.log').readlines()
 			
-			# ½«¶ÌĞÅÄÚÈİĞ´ÈëÈÕÖ¾
+			# å°†çŸ­ä¿¡å†…å®¹å†™å…¥æ—¥å¿—
 			os.popen('echo '+time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))+' '+sms_info+' >> '+config.log_path+'solr_monitor.log').readlines()
 
 		self.sms_list=[]
 		
 
-# Æô¶¯²âÊÔ
+# å¯åŠ¨æµ‹è¯•
 #if __name__=='__main__':	
 #	
 #	while True:
@@ -104,5 +102,5 @@ class SolrMonitor():
 #		sm = SolrMonitor()
 #		
 #		sm.request_data()
-#		# 10·ÖÖÓ¼ä¸ô
+#		# 10åˆ†é’Ÿé—´éš”
 #		time.sleep(config.sleep_time)
