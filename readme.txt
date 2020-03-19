@@ -26,4 +26,8 @@ ocdp123
 	send_sms.sh          短信通知通用脚本
 	api_help             Ambari api接口帮助文档
 	log:                 存放日志
+
+更新： 2020/03/19 13:39 
+项目移至：https://github.com/Biking0/dev_ops/tree/master/ambari_monitor
+
 		
